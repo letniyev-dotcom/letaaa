@@ -2,11 +2,10 @@ package com.pikpay.app
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.PathInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,44 +40,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Must be called before super.onCreate() / setContentView so the
         // system knows to keep the splash theme's window up until we
-        // either let it time out or dismiss it ourselves below.
+        // dismiss it ourselves below.
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Custom exit: the splash logo settles into its pop-in, then the
-        // whole splash view eases up and fades out (instead of the default
-        // instant cut), so the handoff into the onboarding screen reads as
-        // one continuous motion rather than two separate moments.
+        // Custom exit: a plain, soft opacity fade — no scale/translate —
+        // so the handoff out of the splash reads as gently as the fade-in
+        // the logo itself plays.
         splashScreen.setOnExitAnimationListener { splashScreenView ->
-            val exitEasing = PathInterpolator(0.4f, 0f, 0.2f, 1f)
-
-            val fadeOut = ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
-                duration = 260
-                interpolator = exitEasing
-            }
-            val riseUp = ObjectAnimator.ofFloat(
-                splashScreenView.view,
-                View.TRANSLATION_Y,
-                0f,
-                -splashScreenView.view.height * 0.06f
-            ).apply {
-                duration = 260
-                interpolator = exitEasing
-            }
-            val scaleDownX = ObjectAnimator.ofFloat(splashScreenView.view, View.SCALE_X, 1f, 0.92f).apply {
-                duration = 260
-                interpolator = exitEasing
-            }
-            val scaleDownY = ObjectAnimator.ofFloat(splashScreenView.view, View.SCALE_Y, 1f, 0.92f).apply {
-                duration = 260
-                interpolator = exitEasing
-            }
-
-            AnimatorSet().apply {
-                playTogether(fadeOut, riseUp, scaleDownX, scaleDownY)
-                startDelay = 80
+            ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
+                duration = 220
+                interpolator = DecelerateInterpolator()
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         splashScreenView.remove()

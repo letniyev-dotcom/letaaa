@@ -2,14 +2,14 @@
 <!--
     Static artwork for the animated splash-screen icon.
     Canvas is 432x432dp (4x the 108dp adaptive-icon canvas), matching the
-    platform's "icon without background" spec: the logo should occupy the
-    same relative area as ic_launcher_foreground, just scaled up 4x, and
-    sit on the plain solid windowSplashScreenBackground color instead of
-    its own background layer.
+    platform's "icon without background" spec: the logo occupies the same
+    relative area as ic_launcher_foreground, just scaled up 4x, and sits on
+    the plain solid windowSplashScreenBackground color instead of its own
+    background layer.
 
-    The "logo_group" wrapper is what splash_logo_pop.xml (res/animator)
-    animates: scaleX/Y, translateY and alpha, pivoted at the visual
-    center of the wordmark so the pop-in scales symmetrically.
+    The "logo_group" wrapper is what splash_logo_fade.xml (res/animator)
+    animates: alpha and a subtle scale, pivoted at the visual center of the
+    wordmark, so it settles in as a soft fade rather than a pop/bounce.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"

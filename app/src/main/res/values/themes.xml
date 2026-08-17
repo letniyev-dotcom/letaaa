@@ -1,19 +1,30 @@
 <resources>
+    <!--
+        Edge-to-edge is enabled in MainActivity (enableEdgeToEdge()), which
+        draws the app behind the status/nav bars and sets them transparent
+        itself. Do NOT also declare android:statusBarColor /
+        android:windowLightStatusBar here — an explicit opaque color here
+        fights the edge-to-edge call and is what was causing the solid
+        (non-transparent) status bar strip to reappear. Icon contrast is
+        handled at runtime in PikPayTheme via WindowCompat's insets
+        controller instead.
+    -->
     <style name="Theme.PikPay" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">#F1F1F3</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">#F1F1F3</item>
     </style>
 
     <!--
         Launch/splash theme. Applied to MainActivity only until
         installSplashScreen() switches it to Theme.PikPay (postSplashScreenTheme)
-        right after the first frame is drawn.
+        right after the first frame is drawn. windowSplashScreenBackground and
+        windowLightStatusBar come from this (light) resource set; the
+        values-night variant swaps both so the splash follows the system theme.
     -->
     <style name="Theme.PikPay.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo_animated</item>
-        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="windowSplashScreenAnimationDuration">450</item>
         <item name="postSplashScreenTheme">@style/Theme.PikPay</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

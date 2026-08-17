@@ -1,0 +1,16 @@
+<resources>
+    <!--
+        Same splash theme as values/themes.xml, just with light status bar
+        icons switched off since windowSplashScreenBackground (from
+        values-night/colors.xml) is dark here. Theme.PikPay itself isn't
+        overridden — the in-app UI stays a single light theme, only the
+        splash screen adapts to the system setting.
+    -->
+    <style name="Theme.PikPay.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo_animated</item>
+        <item name="windowSplashScreenAnimationDuration">450</item>
+        <item name="postSplashScreenTheme">@style/Theme.PikPay</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

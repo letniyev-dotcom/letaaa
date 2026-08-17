@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep warm-espresso base for the splash window on dark system theme.
+         Same "Coral Sunset" gradient logo sits on it with strong contrast,
+         so the splash respects the device's light/dark setting. -->
+    <color name="splash_background">#1B1512</color>
+</resources>
