@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Animated splash-screen icon: wraps ic_splash_logo_base.xml and plays
+    splash_logo_pop.xml (res/animator) on the "logo_group" the moment the
+    system splash window shows.
+-->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_splash_logo_base">
+
+    <target
+        android:name="logo_group"
+        android:animation="@animator/splash_logo_pop" />
+
+</animated-vector>

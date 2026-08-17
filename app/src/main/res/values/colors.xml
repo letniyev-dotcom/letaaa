@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Solid warm-cream base for the splash window — the closest flat
+         approximation of the "Coral Sunset" blurred background wash,
+         since windowSplashScreenBackground must be a single opaque color. -->
+    <color name="splash_background">#FFFAF5</color>
+</resources>

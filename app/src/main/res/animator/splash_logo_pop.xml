@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    "Pop-in" entrance for the splash logo: a quick spring-scale with a
+    gentle overshoot (grows slightly past full size then settles back),
+    combined with a fast fade-in and a short upward drift so the wordmark
+    feels like it lands into place rather than just appearing.
+    Total runtime ~620ms, comfortably under the 1000ms guideline.
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Scale: 40% -> settle at 100%, spring interpolator gives the overshoot/bounce -->
+    <objectAnimator
+        android:propertyName="scaleX"
+        android:valueFrom="0.050224"
+        android:valueTo="0.125556"
+        android:valueType="floatType"
+        android:startOffset="60"
+        android:duration="560"
+        android:interpolator="@android:interpolator/overshoot" />
+
+    <objectAnimator
+        android:propertyName="scaleY"
+        android:valueFrom="0.050224"
+        android:valueTo="0.125556"
+        android:valueType="floatType"
+        android:startOffset="60"
+        android:duration="560"
+        android:interpolator="@android:interpolator/overshoot" />
+
+    <!-- Fade-in: quick, finishes well before the scale settles -->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:valueFrom="0"
+        android:valueTo="1"
+        android:valueType="floatType"
+        android:startOffset="40"
+        android:duration="260"
+        android:interpolator="@android:interpolator/decelerate_quint" />
+
+    <!-- Subtle upward drift synced with the scale spring -->
+    <objectAnimator
+        android:propertyName="translateY"
+        android:valueFrom="154.243932"
+        android:valueTo="130.243932"
+        android:valueType="floatType"
+        android:startOffset="60"
+        android:duration="560"
+        android:interpolator="@android:interpolator/overshoot" />
+
+</set>

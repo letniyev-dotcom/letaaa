@@ -1,6 +1,12 @@
 package com.pikpay.app
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.PathInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.zIndex
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pikpay.app.ui.MainScreen
 import com.pikpay.app.ui.OnboardingScreen
 import com.pikpay.app.ui.theme.Bg
@@ -32,8 +39,55 @@ private const val ScreenPushMs = 320
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Must be called before super.onCreate() / setContentView so the
+        // system knows to keep the splash theme's window up until we
+        // either let it time out or dismiss it ourselves below.
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Custom exit: the splash logo settles into its pop-in, then the
+        // whole splash view eases up and fades out (instead of the default
+        // instant cut), so the handoff into the onboarding screen reads as
+        // one continuous motion rather than two separate moments.
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            val exitEasing = PathInterpolator(0.4f, 0f, 0.2f, 1f)
+
+            val fadeOut = ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
+                duration = 260
+                interpolator = exitEasing
+            }
+            val riseUp = ObjectAnimator.ofFloat(
+                splashScreenView.view,
+                View.TRANSLATION_Y,
+                0f,
+                -splashScreenView.view.height * 0.06f
+            ).apply {
+                duration = 260
+                interpolator = exitEasing
+            }
+            val scaleDownX = ObjectAnimator.ofFloat(splashScreenView.view, View.SCALE_X, 1f, 0.92f).apply {
+                duration = 260
+                interpolator = exitEasing
+            }
+            val scaleDownY = ObjectAnimator.ofFloat(splashScreenView.view, View.SCALE_Y, 1f, 0.92f).apply {
+                duration = 260
+                interpolator = exitEasing
+            }
+
+            AnimatorSet().apply {
+                playTogether(fadeOut, riseUp, scaleDownX, scaleDownY)
+                startDelay = 80
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        splashScreenView.remove()
+                    }
+                })
+                start()
+            }
+        }
+
         setContent {
             PikPayTheme {
                 PikPayApp()
